@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
-    private const int BOARD_SIZE = 8;
-    private const float BOARD_SPACING = 0.5f;
+    public const int BOARD_SIZE = 8;
+    public const float BOARD_SPACING = 0.5f;
 
     [SerializeField] private Sprite [] tile;
     public static BoardManager instance { get; private set;}
@@ -18,6 +18,18 @@ public class BoardManager : MonoBehaviour
         {
             this.tileGridPosition = tileGridPosition;
             this.isBusy = false;
+        }
+
+        public bool IsBusy() {
+            return this.isBusy;
+        }
+
+        public void SetBusy(bool state) {
+            this.isBusy = state;    
+        }
+
+        public Vector2Int GetTileGridPosition() {
+            return this.tileGridPosition;
         }
     }
 
@@ -65,10 +77,13 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    private GameObject CreateTile(Sprite color, Vector2 gridPos) {
+    private GameObject CreateTile(Sprite spriteColor, Vector2 gridPos) {
         GameObject tileGameObject = new GameObject("Tile",typeof(SpriteRenderer));
-        tileGameObject.GetComponent<SpriteRenderer>().sprite = color;
+        SpriteRenderer tileSpriteRenderer =  tileGameObject.GetComponent<SpriteRenderer>();
+        tileSpriteRenderer.sortingOrder = -1;
+        tileSpriteRenderer.sprite = spriteColor;
         tileGameObject.transform.position = gridPos;
+        tileGameObject.transform.parent = gameObject.transform;
 
         return tileGameObject;
     }
