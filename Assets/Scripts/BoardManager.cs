@@ -6,33 +6,9 @@ public class BoardManager : MonoBehaviour
 {
     public const int BOARD_SIZE = 8;
     public const float BOARD_SPACING = 0.5f;
+    public List<BoardTile> tileList;
 
-    [SerializeField] private Sprite [] tile;
     public static BoardManager instance { get; private set;}
-
-    public class BoardTile {
-        private Vector2Int tileGridPosition;
-        private bool isBusy;
-
-        public BoardTile(Vector2Int tileGridPosition)
-        {
-            this.tileGridPosition = tileGridPosition;
-            this.isBusy = false;
-        }
-
-        public bool IsBusy() {
-            return this.isBusy;
-        }
-
-        public void SetBusy(bool state) {
-            this.isBusy = state;    
-        }
-
-        public Vector2Int GetTileGridPosition() {
-            return this.tileGridPosition;
-        }
-    }
-
 
     private void Awake()
     {
@@ -46,45 +22,34 @@ public class BoardManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        tileList = new List<BoardTile>();
         CreateBoard();
     }
 
     private void CreateBoard() {
-        int setTileColor = 0; // 0=white 1=green
-        for (int x = 0; x < BOARD_SIZE; x++) {
-            
-            if (setTileColor == 0)
-            {
-                setTileColor = 1;
-            }
-            else {
-                setTileColor = 0;
-            }
-            
-            for (int y = 0; y < BOARD_SIZE; y++) {
+        for (int y = 0; y < BOARD_SIZE; y++) {
+                        
+            for (int x = 0; x < BOARD_SIZE; x++) {
                 
-                CreateTile(tile[setTileColor],new Vector2(x+BOARD_SPACING,y+BOARD_SPACING));
-                
-                if (setTileColor == 0)
-                {
-                    setTileColor = 1;
-                }
-                else
-                {
-                    setTileColor = 0;
-                }
+                CreateTile(GameAssets.Instance.tileColorSprite[(x+y)%2],new Vector2(x+BOARD_SPACING,y+BOARD_SPACING));
             }
         }
     }
 
-    private GameObject CreateTile(Sprite spriteColor, Vector2 gridPos) {
-        GameObject tileGameObject = new GameObject("Tile",typeof(SpriteRenderer));
-        SpriteRenderer tileSpriteRenderer =  tileGameObject.GetComponent<SpriteRenderer>();
-        tileSpriteRenderer.sortingOrder = -1;
-        tileSpriteRenderer.sprite = spriteColor;
-        tileGameObject.transform.position = gridPos;
-        tileGameObject.transform.parent = gameObject.transform;
+    private BoardTile CreateTile(Sprite spriteColor, Vector2 gridPos) {
 
-        return tileGameObject;
+        BoardTile newTile = new BoardTile(gridPos,spriteColor);
+        newTile.SetParent(gameObject.transform);
+        tileList.Add(newTile);
+        return newTile;
+    }
+
+    public bool AllTilesBusy() {
+        foreach (BoardTile tile in tileList) {
+            if (!tile.IsBusy()) {
+                return false;
+            }
+        }
+        return true;
     }
 }

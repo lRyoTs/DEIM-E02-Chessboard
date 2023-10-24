@@ -27,6 +27,11 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        spawnTimer += Time.deltaTime;
+        if (spawnTimer > spawnMaxTimer) {
+            spawnTimer -= spawnMaxTimer;
+            Piece piece = new Piece();
+            Debug.Log($"(piece.GetPieceGridPosition())");
+        }
     }
 }
