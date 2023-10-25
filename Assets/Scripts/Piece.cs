@@ -15,7 +15,7 @@ public class Piece
         do
         {
             pieceGridPosition = SpawnRandomGridPosition();
-        } while (false);
+        } while (!BoardManager.instance.IsTileBusy(pieceGridPosition));
 
 
         pieceGameObject = new GameObject("Piece");

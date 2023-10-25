@@ -44,6 +44,20 @@ public class BoardManager : MonoBehaviour
         return newTile;
     }
 
+    public bool IsTileBusy(Vector2 pieceGridPosition) {
+        
+        //We search the tile
+        foreach (var tile in tileList)
+        {
+            //We found a free tile
+            if ((tile.GetTileGridPosition() == pieceGridPosition) && !tile.IsBusy()){
+                tile.SetTileBusy();
+                return true;
+            }
+        }
+        return false; //We dont found a free tile
+        
+    }
     public bool AllTilesBusy() {
         foreach (BoardTile tile in tileList) {
             if (!tile.IsBusy()) {
@@ -52,4 +66,6 @@ public class BoardManager : MonoBehaviour
         }
         return true;
     }
+
+    
 }

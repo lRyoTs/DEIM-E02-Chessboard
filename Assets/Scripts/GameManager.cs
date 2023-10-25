@@ -18,20 +18,21 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
-        spawnTimer += Time.deltaTime;
-        if (spawnTimer > spawnMaxTimer) {
-            spawnTimer -= spawnMaxTimer;
-            Piece piece = new Piece();
-            Debug.Log($"(piece.GetPieceGridPosition())");
+        if (!BoardManager.instance.AllTilesBusy())
+        {
+            spawnTimer += Time.deltaTime;
+            if (spawnTimer > spawnMaxTimer)
+            {
+                spawnTimer -= spawnMaxTimer;
+                Piece piece = new Piece();
+            }
         }
+        else {
+            Debug.Log("GAME FINISHED");
+        }
+
     }
 }
