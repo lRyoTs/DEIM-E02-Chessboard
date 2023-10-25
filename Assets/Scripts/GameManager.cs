@@ -21,6 +21,11 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Play();
+
+    }
+
+    public void Play() {
         if (!BoardManager.instance.AllTilesBusy())
         {
             spawnTimer += Time.deltaTime;
@@ -30,9 +35,9 @@ public class GameManager : MonoBehaviour
                 Piece piece = new Piece();
             }
         }
-        else {
+        else
+        {
             Debug.Log("GAME FINISHED");
         }
-
     }
 }

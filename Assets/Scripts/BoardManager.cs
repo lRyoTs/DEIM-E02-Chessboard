@@ -6,7 +6,7 @@ public class BoardManager : MonoBehaviour
 {
     public const int BOARD_SIZE = 8;
     public const float BOARD_SPACING = 0.5f;
-    public List<BoardTile> tileList;
+    private List<BoardTile> tileList;
 
     public static BoardManager instance { get; private set;}
 
@@ -58,6 +58,7 @@ public class BoardManager : MonoBehaviour
         return false; //We dont found a free tile
         
     }
+    
     public bool AllTilesBusy() {
         foreach (BoardTile tile in tileList) {
             if (!tile.IsBusy()) {
