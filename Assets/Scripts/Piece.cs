@@ -12,12 +12,13 @@ public class Piece
     }
 
     public void SpawnPiece(){
+        //Search for an free tile
         do
         {
             pieceGridPosition = SpawnRandomGridPosition();
         } while (!BoardManager.instance.IsTileBusy(pieceGridPosition));
 
-
+        //Spawn object in the free tile
         pieceGameObject = new GameObject("Piece");
         SpriteRenderer foodSpriteRenderer = pieceGameObject.AddComponent<SpriteRenderer>();
         foodSpriteRenderer.sprite = GameAssets.Instance.pieceSprite;
@@ -31,17 +32,4 @@ public class Piece
     public Vector2 GetPieceGridPosition() {
         return pieceGridPosition;
     }
-
-    public bool TrySnakeEatFood(BoardTile selectedTile)
-    {
-        if (pieceGridPosition == selectedTile.GetTileGridPosition()){ 
-            SpawnPiece();
-            selectedTile.SetTileBusy();
-            
-            return true;
-        }
-
-            return false;
-        }
-    
 }

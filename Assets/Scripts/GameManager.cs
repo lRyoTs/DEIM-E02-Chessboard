@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public GameManager Instance { get; private set; }
 
-    private float spawnMaxTimer = 1f;
+    [SerializeField] private float spawnMaxTimer = 1f;
     private float spawnTimer;
 
     private void Awake()
@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         Play();
-
     }
 
     public void Play() {
